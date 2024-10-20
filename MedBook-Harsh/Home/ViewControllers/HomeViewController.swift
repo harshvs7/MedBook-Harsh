@@ -145,6 +145,7 @@ extension HomeViewController {
         view.addSubview(sortingStackView)
         
         searchBar.delegate = self
+        addDoneButtonOnKeyboard()
         bookmarkedTableView.delegate = self
         bookmarkedTableView.dataSource = self
         
@@ -235,32 +236,32 @@ extension HomeViewController {
     private func fetchBooks(query: String, offset: Int) {
         //MARK: Uncomment below code for api call
         /*
-        loader.startAnimating()
-        viewModel.fetchBooks(query: query, offset: offset) { [weak self] success, errorMessage in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
-                self.loader.stopAnimating()
-                
-                if success {
-                    let startIndex = self.viewModel.books.count
-                    let endIndex = self.viewModel.books.count - 1
-                    if endIndex >= startIndex {
-                        let indexPaths = (startIndex...endIndex).map { IndexPath(row: $0, section: 0) }
-                        self.bookmarkedTableView.insertRows(at: indexPaths, with: .automatic)
-                        
-                        if self.viewModel.books.isEmpty {
-                            self.updateNoResultsView()
-                        } else {
-                            self.bookmarkedTableView.insertRows(at: indexPaths, with: .automatic)
-                            self.updateNoResultsView()
-                        }
-                    }
-                } else {
-                    self.showAlert("Oops", errorMessage ?? "Unknown error")
-                }
-            }
-        }
-        */
+         loader.startAnimating()
+         viewModel.fetchBooks(query: query, offset: offset) { [weak self] success, errorMessage in
+         guard let self = self else { return }
+         DispatchQueue.main.async {
+         self.loader.stopAnimating()
+         
+         if success {
+         let startIndex = self.viewModel.books.count
+         let endIndex = self.viewModel.books.count - 1
+         if endIndex >= startIndex {
+         let indexPaths = (startIndex...endIndex).map { IndexPath(row: $0, section: 0) }
+         self.bookmarkedTableView.insertRows(at: indexPaths, with: .automatic)
+         
+         if self.viewModel.books.isEmpty {
+         self.updateNoResultsView()
+         } else {
+         self.bookmarkedTableView.insertRows(at: indexPaths, with: .automatic)
+         self.updateNoResultsView()
+         }
+         }
+         } else {
+         self.showAlert("Oops", errorMessage ?? "Unknown error")
+         }
+         }
+         }
+         */
     }
     
     private func sortBooks() {
@@ -304,6 +305,17 @@ extension HomeViewController {
         selectedButton.backgroundColor = UIColor.systemGray4
         self.sortBooks()
     }
+    
+    //Function to add done button on the keyboard
+    private func addDoneButtonOnKeyboard() {
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(dismissKeyboard))
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        
+        toolbar.setItems([flexibleSpace, doneButton], animated: false)
+        searchBar.inputAccessoryView = toolbar
+    }
 }
 
 
@@ -317,17 +329,36 @@ extension HomeViewController : UISearchBarDelegate {
         bookmarkedTableView.reloadData()
         
         /*if searchText.count >= 3 {
-            books.removeAll()
-            bookmarkedTableView.reloadData()
-            fetchBooks(query: searchText, offset: 0)
-        } else {
-            books.removeAll()
-            updateNoResultsView()
-            bookmarkedTableView.reloadData()
-        }*/
+         books.removeAll()
+         bookmarkedTableView.reloadData()
+         fetchBooks(query: searchText, offset: 0)
+         } else {
+         books.removeAll()
+         updateNoResultsView()
+         bookmarkedTableView.reloadData()
+         }*/
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        guard let searchText = searchBar.text else { return }
+        //MARK: remove following code and uncomment below code for api call
+        viewModel.filterBooks(byTitle: searchText)
+        updateNoResultsView()
+        bookmarkedTableView.reloadData()
+        
+        /*if searchText.count >= 3 {
+         books.removeAll()
+         bookmarkedTableView.reloadData()
+         fetchBooks(query: searchText, offset: 0)
+         } else {
+         books.removeAll()
+         updateNoResultsView()
+         bookmarkedTableView.reloadData()
+         }*/
     }
 }
-    
+
 //MARK: ScrollView Delegate
 extension HomeViewController : UIScrollViewDelegate {
     
@@ -397,28 +428,33 @@ extension HomeViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    @objc 
+    @objc
     private func eraseTapped() {
         AppDefaults.shared.logout()
         let vc = LoginViewController()
         self.navigationController?.pushViewController(vc, animated: false)
     }
     
-    @objc 
+    @objc
     private func sortByTitle() {
         selectedSort = .title
         updateSortingSelection(selectedButton: titleSortButton)
     }
     
-    @objc 
+    @objc
     private func sortByAverage() {
         selectedSort = .averageRating
         updateSortingSelection(selectedButton: averageSortButton)
     }
     
-    @objc 
+    @objc
     private func sortByHits() {
         selectedSort = .hits
         updateSortingSelection(selectedButton: hitsSortButton)
+    }
+    
+    @objc
+    private func dismissKeyboard() {
+        searchBar.resignFirstResponder()
     }
 }

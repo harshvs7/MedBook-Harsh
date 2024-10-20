@@ -8,22 +8,23 @@
 import UIKit
 
 class ViewController: UIViewController {
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //Check to see if user is logged in or not
-        if let loggedIn = AppDefaults.shared.loggedIn, loggedIn {
-            let vc = HomeViewController()
-            self.navigationController?.pushViewController(vc, animated: true)
-        } else {
-            let vc = LoginViewController()
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
-        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+            //Check to see if user is logged in or not
+            if let loggedIn = AppDefaults.shared.loggedIn, loggedIn {
+                let vc = HomeViewController()
+                self.navigationController?.pushViewController(vc, animated: true)
+            } else {
+                let vc = LoginViewController()
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        })
         
     }
-    
-    
+
+
 }
 
