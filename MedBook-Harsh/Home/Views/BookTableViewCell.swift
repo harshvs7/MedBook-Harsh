@@ -17,6 +17,7 @@ class BookTableViewCell: UITableViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.cornerRadius = 8
         imageView.clipsToBounds = true
+        imageView.image = UIImage(systemName: "book")
         return imageView
     }()
 

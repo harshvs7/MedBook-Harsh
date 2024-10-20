@@ -407,7 +407,6 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource {
             }
             
             completionHandler(true)
-            tableView.reloadRows(at: [indexPath], with: .none)
         }
         
         bookmarkAction.backgroundColor = isBookBookmarked(book) ? .black : .red

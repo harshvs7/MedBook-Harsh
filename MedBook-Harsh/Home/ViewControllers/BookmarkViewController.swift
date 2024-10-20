@@ -133,7 +133,7 @@ extension BookmarkViewController: UITableViewDelegate, UITableViewDataSource {
             tableView.reloadData()
         }
         
-        bookmarkAction.backgroundColor = .red
+        bookmarkAction.backgroundColor = .black
         bookmarkAction.image = UIImage(systemName: "bookmark.slash.fill")
         
         let configuration = UISwipeActionsConfiguration(actions: [bookmarkAction])
@@ -145,7 +145,8 @@ extension BookmarkViewController: UITableViewDelegate, UITableViewDataSource {
         var bookmarkedBooks : [Book] = AppDefaults.shared.bookmarkedBooks ?? []
         bookmarkedBooks.removeAll { $0.title == book.title }
         AppDefaults.shared.bookmarkedBooks = bookmarkedBooks
-        bookmarkedTableView.reloadData()
+        books = bookmarkedBooks
+        updateNoResultsView()
     }
 }
 

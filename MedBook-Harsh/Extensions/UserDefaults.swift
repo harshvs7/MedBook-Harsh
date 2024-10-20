@@ -76,23 +76,16 @@ class AppDefaults {
             }
         }
         set {
-            var currentBooks = bookmarkedBooks ?? []
-            
             if let newBooks = newValue {
-                let filteredNewBooks = newBooks.filter { newBook in
-                    return !currentBooks.contains { $0.title == newBook.title }
+                do {
+                    let encoder = JSONEncoder()
+                    let encodedData = try encoder.encode(newBooks)
+                    userDefaults.setValue(encodedData, forKey: DefaultValues.bookmarkedBooks)
+                } catch {
+                    print("Error encoding bookmarked books: \(error)")
                 }
-                
-                currentBooks.append(contentsOf: filteredNewBooks)
-            }
-            
-            do {
-                let encoder = JSONEncoder()
-                let encodedData = try encoder.encode(currentBooks)
-                userDefaults.setValue(encodedData, forKey: DefaultValues.bookmarkedBooks)
-                userDefaults.synchronize()
-            } catch {
-                print("Error encoding bookmarked books: \(error)")
+            } else {
+                userDefaults.removeObject(forKey: DefaultValues.bookmarkedBooks)
             }
         }
     }
