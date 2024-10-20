@@ -8,12 +8,22 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        //Check to see if user is logged in or not
+        if let loggedIn = AppDefaults.shared.loggedIn, loggedIn {
+            let vc = HomeViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let vc = LoginViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        
+        
     }
-
-
+    
+    
 }
 

@@ -16,6 +16,17 @@
 		56BACBC12CC392000083D5D5 /* MedBook_HarshTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BACBC02CC392000083D5D5 /* MedBook_HarshTests.swift */; };
 		56BACBCB2CC392000083D5D5 /* MedBook_HarshUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BACBCA2CC392000083D5D5 /* MedBook_HarshUITests.swift */; };
 		56BACBCD2CC392000083D5D5 /* MedBook_HarshUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BACBCC2CC392000083D5D5 /* MedBook_HarshUITestsLaunchTests.swift */; };
+		56BACBDA2CC392AA0083D5D5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BACBD92CC392AA0083D5D5 /* LoginViewController.swift */; };
+		56BACBDC2CC3A2380083D5D5 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BACBDB2CC3A2380083D5D5 /* SignUpViewController.swift */; };
+		56BACBDE2CC3E46A0083D5D5 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BACBDD2CC3E46A0083D5D5 /* HomeViewController.swift */; };
+		56BACBE02CC3E48C0083D5D5 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BACBDF2CC3E48C0083D5D5 /* Model.swift */; };
+		56BACBE22CC3E4A50083D5D5 /* BookTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BACBE12CC3E4A50083D5D5 /* BookTableViewCell.swift */; };
+		56BACBE42CC3E60A0083D5D5 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BACBE32CC3E60A0083D5D5 /* UIViewControllerExtension.swift */; };
+		56BACBE62CC3EE1F0083D5D5 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BACBE52CC3EE1F0083D5D5 /* UserDefaults.swift */; };
+		56BACBE82CC44A1C0083D5D5 /* BookmarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BACBE72CC44A1C0083D5D5 /* BookmarkViewController.swift */; };
+		56BACBEA2CC45A950083D5D5 /* NoResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BACBE92CC45A950083D5D5 /* NoResultsView.swift */; };
+		56BACBF42CC4BC500083D5D5 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BACBF32CC4BC500083D5D5 /* OnboardingViewModel.swift */; };
+		56BACBF72CC4C02F0083D5D5 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BACBF62CC4C02F0083D5D5 /* HomeViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +60,17 @@
 		56BACBC62CC392000083D5D5 /* MedBook-HarshUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MedBook-HarshUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		56BACBCA2CC392000083D5D5 /* MedBook_HarshUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedBook_HarshUITests.swift; sourceTree = "<group>"; };
 		56BACBCC2CC392000083D5D5 /* MedBook_HarshUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedBook_HarshUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		56BACBD92CC392AA0083D5D5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		56BACBDB2CC3A2380083D5D5 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		56BACBDD2CC3E46A0083D5D5 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		56BACBDF2CC3E48C0083D5D5 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		56BACBE12CC3E4A50083D5D5 /* BookTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookTableViewCell.swift; sourceTree = "<group>"; };
+		56BACBE32CC3E60A0083D5D5 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
+		56BACBE52CC3EE1F0083D5D5 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		56BACBE72CC44A1C0083D5D5 /* BookmarkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkViewController.swift; sourceTree = "<group>"; };
+		56BACBE92CC45A950083D5D5 /* NoResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoResultsView.swift; sourceTree = "<group>"; };
+		56BACBF32CC4BC500083D5D5 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		56BACBF62CC4C02F0083D5D5 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +121,9 @@
 		56BACBA82CC391FD0083D5D5 /* MedBook-Harsh */ = {
 			isa = PBXGroup;
 			children = (
+				56BACBF02CC4BA6A0083D5D5 /* Extensions */,
+				56BACBED2CC4BA380083D5D5 /* Home */,
+				56BACBEB2CC4BA1F0083D5D5 /* Onboarding */,
 				56BACBA92CC391FD0083D5D5 /* AppDelegate.swift */,
 				56BACBAB2CC391FD0083D5D5 /* SceneDelegate.swift */,
 				56BACBAD2CC391FD0083D5D5 /* ViewController.swift */,
@@ -125,6 +150,86 @@
 				56BACBCC2CC392000083D5D5 /* MedBook_HarshUITestsLaunchTests.swift */,
 			);
 			path = "MedBook-HarshUITests";
+			sourceTree = "<group>";
+		};
+		56BACBEB2CC4BA1F0083D5D5 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				56BACBF22CC4BC400083D5D5 /* ViewModel */,
+				56BACBEC2CC4BA2C0083D5D5 /* ViewControllers */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		56BACBEC2CC4BA2C0083D5D5 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				56BACBDB2CC3A2380083D5D5 /* SignUpViewController.swift */,
+				56BACBD92CC392AA0083D5D5 /* LoginViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		56BACBED2CC4BA380083D5D5 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				56BACBF52CC4C0190083D5D5 /* ViewModel */,
+				56BACBF12CC4BA7C0083D5D5 /* Model */,
+				56BACBEF2CC4BA470083D5D5 /* Views */,
+				56BACBEE2CC4BA3E0083D5D5 /* ViewControllers */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		56BACBEE2CC4BA3E0083D5D5 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				56BACBDD2CC3E46A0083D5D5 /* HomeViewController.swift */,
+				56BACBE72CC44A1C0083D5D5 /* BookmarkViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		56BACBEF2CC4BA470083D5D5 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				56BACBE92CC45A950083D5D5 /* NoResultsView.swift */,
+				56BACBE12CC3E4A50083D5D5 /* BookTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		56BACBF02CC4BA6A0083D5D5 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				56BACBE52CC3EE1F0083D5D5 /* UserDefaults.swift */,
+				56BACBE32CC3E60A0083D5D5 /* UIViewControllerExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		56BACBF12CC4BA7C0083D5D5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				56BACBDF2CC3E48C0083D5D5 /* Model.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		56BACBF22CC4BC400083D5D5 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				56BACBF32CC4BC500083D5D5 /* OnboardingViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		56BACBF52CC4C0190083D5D5 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				56BACBF62CC4C02F0083D5D5 /* HomeViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,9 +363,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				56BACBEA2CC45A950083D5D5 /* NoResultsView.swift in Sources */,
+				56BACBE82CC44A1C0083D5D5 /* BookmarkViewController.swift in Sources */,
+				56BACBE22CC3E4A50083D5D5 /* BookTableViewCell.swift in Sources */,
+				56BACBE02CC3E48C0083D5D5 /* Model.swift in Sources */,
+				56BACBE42CC3E60A0083D5D5 /* UIViewControllerExtension.swift in Sources */,
 				56BACBAE2CC391FD0083D5D5 /* ViewController.swift in Sources */,
+				56BACBF42CC4BC500083D5D5 /* OnboardingViewModel.swift in Sources */,
 				56BACBAA2CC391FD0083D5D5 /* AppDelegate.swift in Sources */,
+				56BACBDA2CC392AA0083D5D5 /* LoginViewController.swift in Sources */,
+				56BACBF72CC4C02F0083D5D5 /* HomeViewModel.swift in Sources */,
+				56BACBE62CC3EE1F0083D5D5 /* UserDefaults.swift in Sources */,
 				56BACBAC2CC391FD0083D5D5 /* SceneDelegate.swift in Sources */,
+				56BACBDC2CC3A2380083D5D5 /* SignUpViewController.swift in Sources */,
+				56BACBDE2CC3E46A0083D5D5 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,13 +558,17 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QC8MN3WX27;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "MedBook-Harsh/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = MedBook;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -469,13 +589,17 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QC8MN3WX27;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "MedBook-Harsh/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = MedBook;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
