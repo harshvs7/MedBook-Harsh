@@ -9,7 +9,6 @@ import UIKit
 
 class HomeViewController : UIViewController {
     
-    private var books: [Book] = []
     private var selectedSort: SortOption = .title
     private var isLoading = false
     private var totalResults = 0
@@ -150,6 +149,7 @@ extension HomeViewController {
         bookmarkedTableView.dataSource = self
         
         bookmarkedTableView.register(BookTableViewCell.self, forCellReuseIdentifier: "BookCell")
+        bookmarkedTableView.allowsSelection = false
         
         bookmarkButton.addTarget(self, action: #selector(bookmarkTapped), for: .touchUpInside)
         eraseButton.addTarget(self, action: #selector(eraseTapped), for: .touchUpInside)
@@ -203,7 +203,7 @@ extension HomeViewController {
     }
     
     private func updateNoResultsView() {
-        if books.isEmpty {
+        if viewModel.books.isEmpty {
             // No results, show the custom view and hide tableView
             noResultsView.isHidden = false
             bookmarkedTableView.isHidden = true
@@ -233,6 +233,8 @@ extension HomeViewController {
     
     // API CALL for books
     private func fetchBooks(query: String, offset: Int) {
+        //MARK: Uncomment below code for api call
+        /*
         loader.startAnimating()
         viewModel.fetchBooks(query: query, offset: offset) { [weak self] success, errorMessage in
             guard let self = self else { return }
@@ -242,30 +244,33 @@ extension HomeViewController {
                 if success {
                     let startIndex = self.viewModel.books.count
                     let endIndex = self.viewModel.books.count - 1
-                    let indexPaths = (startIndex...endIndex).map { IndexPath(row: $0, section: 0) }
-                    
-                    if self.viewModel.books.isEmpty {
-                        self.updateNoResultsView()
-                    } else {
+                    if endIndex >= startIndex {
+                        let indexPaths = (startIndex...endIndex).map { IndexPath(row: $0, section: 0) }
                         self.bookmarkedTableView.insertRows(at: indexPaths, with: .automatic)
-                        self.updateNoResultsView()
+                        
+                        if self.viewModel.books.isEmpty {
+                            self.updateNoResultsView()
+                        } else {
+                            self.bookmarkedTableView.insertRows(at: indexPaths, with: .automatic)
+                            self.updateNoResultsView()
+                        }
                     }
                 } else {
                     self.showAlert("Oops", errorMessage ?? "Unknown error")
                 }
             }
         }
+        */
     }
     
-    //Sorting the books based on category
     private func sortBooks() {
         switch selectedSort {
         case .title:
-            books.sort { $0.title < $1.title }
+            viewModel.books.sort { $0.title < $1.title }
         case .averageRating:
-            books.sort { $0.ratingsAverage > $1.ratingsAverage }
+            viewModel.books.sort { $0.ratingsAverage > $1.ratingsAverage }
         case .hits:
-            books.sort { $0.ratingsCount > $1.ratingsCount }
+            viewModel.books.sort { $0.ratingsCount > $1.ratingsCount }
         }
         bookmarkedTableView.reloadData()
     }
@@ -292,6 +297,7 @@ extension HomeViewController {
     
     //common function to adjust the ui for sorting button
     private func updateSortingSelection(selectedButton: UIButton) {
+        searchBar.resignFirstResponder()
         [titleSortButton, averageSortButton, hitsSortButton].forEach { button in
             button.backgroundColor = .clear
         }
@@ -305,7 +311,12 @@ extension HomeViewController {
 extension HomeViewController : UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchText.count >= 3 {
+        //MARK: remove following code and uncomment below code for api call
+        viewModel.filterBooks(byTitle: searchText)
+        updateNoResultsView()
+        bookmarkedTableView.reloadData()
+        
+        /*if searchText.count >= 3 {
             books.removeAll()
             bookmarkedTableView.reloadData()
             fetchBooks(query: searchText, offset: 0)
@@ -313,25 +324,28 @@ extension HomeViewController : UISearchBarDelegate {
             books.removeAll()
             updateNoResultsView()
             bookmarkedTableView.reloadData()
-        }
+        }*/
     }
 }
     
 //MARK: ScrollView Delegate
 extension HomeViewController : UIScrollViewDelegate {
     
-    //For pagination in tableView
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let position = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
         let scrollHeight = scrollView.frame.size.height
         
-        if position > (contentHeight - scrollHeight) && !isLoading && books.count < totalResults {
-            let nextOffset = books.count
+        if position > (contentHeight - scrollHeight) && !isLoading && viewModel.books.count < totalResults {
+            let nextOffset = viewModel.books.count
             if let searchText = searchBar.text, searchText.count >= 3 {
                 fetchBooks(query: searchText, offset: nextOffset)
             }
         }
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        view.endEditing(true)
     }
 }
 
@@ -339,18 +353,18 @@ extension HomeViewController : UIScrollViewDelegate {
 extension HomeViewController : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return books.count
+        return viewModel.books.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "BookCell", for: indexPath) as! BookTableViewCell
-        let book = books[indexPath.row]
+        let book = viewModel.books[indexPath.row]
         cell.configure(with: book)
         return cell
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let book = books[indexPath.row]
+        let book = viewModel.books[indexPath.row]
         
         let bookmarkAction = UIContextualAction(style: .normal, title: isBookBookmarked(book) ? "Unbookmark" : "Bookmark") { [weak self] (action, view, completionHandler) in
             guard let self = self else { return }
@@ -365,7 +379,7 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource {
             tableView.reloadRows(at: [indexPath], with: .none)
         }
         
-        bookmarkAction.backgroundColor = isBookBookmarked(book) ? .red : .green
+        bookmarkAction.backgroundColor = isBookBookmarked(book) ? .black : .red
         bookmarkAction.image = UIImage(systemName: isBookBookmarked(book) ? "bookmark.slash.fill" : "bookmark.fill")
         
         let configuration = UISwipeActionsConfiguration(actions: [bookmarkAction])

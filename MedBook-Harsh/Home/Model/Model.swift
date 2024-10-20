@@ -14,15 +14,23 @@ enum SortOption {
 }
 
 struct BookResponse: Codable {
-    let docs: [BookDoc]
+    let books: [BookDoc]
 }
 
 struct BookDoc: Codable {
     let title: String
-    let author_name: [String]?
-    let cover_i: Int?
-    let ratings_average: Double?
-    let ratings_count: Int?
+    let authorName: [String]?
+    let coverI: Int?
+    let ratingsAverage: Double?
+    let ratingsCount: Int?
+    
+    enum CodingKeys: String, CodingKey {
+        case title
+        case authorName = "author_name"
+        case coverI = "cover_i"
+        case ratingsAverage = "ratings_average"
+        case ratingsCount = "ratings_count"
+    }
 }
 
 struct Book: Codable {

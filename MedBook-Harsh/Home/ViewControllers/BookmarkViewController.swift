@@ -134,7 +134,7 @@ extension BookmarkViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         bookmarkAction.backgroundColor = .red
-        bookmarkAction.image = UIImage(systemName: "bookmark.fill")
+        bookmarkAction.image = UIImage(systemName: "bookmark.slash.fill")
         
         let configuration = UISwipeActionsConfiguration(actions: [bookmarkAction])
         configuration.performsFirstActionWithFullSwipe = false
