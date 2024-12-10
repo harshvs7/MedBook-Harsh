@@ -16,6 +16,7 @@ class ViewController: UIViewController {
             //Check to see if user is logged in or not
             if let loggedIn = AppDefaults.shared.loggedIn, loggedIn {
                 let vc = HomeViewController()
+                vc.delegate = self
                 self.navigationController?.pushViewController(vc, animated: true)
             } else {
                 let vc = LoginViewController()
@@ -24,7 +25,13 @@ class ViewController: UIViewController {
         })
         
     }
-
-
 }
 
+extension ViewController: HomeVCProtocol {
+    func openLoginViewController() {
+        let vc = LoginViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    
+}

@@ -25,8 +25,8 @@ class OnboardingViewModel {
                 if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
                    let countryData = json["data"] as? [String: [String: String]] {
                     
-                    self.countries = countryData.values.map { $0["country"] ?? "" }
-                    self.countryCodes = countryData.keys.map { $0 }
+                    self.countries = countryData.values.compactMap { $0["country"] }
+                    self.countryCodes = countryData.keys.compactMap { $0 }
                     completion(true)
                 } else {
                     completion(false)

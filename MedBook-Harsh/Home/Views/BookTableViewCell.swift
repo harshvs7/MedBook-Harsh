@@ -84,9 +84,11 @@ class BookTableViewCell: UITableViewCell {
     }
     
     func configure(with book: Book) {
+        
         titleLabel.text = book.title
         authorLabel.text = book.author
-        ratingsLabel.text = "Rating: \(book.ratingsAverage) | (\(book.ratingsCount) reviews)"
+        guard let average = book.ratingsAverage, let ratingsCount = book.ratingsCount else { return }
+        ratingsLabel.text = "Rating: \(average) | (\(ratingsCount) reviews)"
         
         viewModel.fetchBookCoverImage(coverID: book.coverID) { [weak self] image in
             guard let self = self else { return }

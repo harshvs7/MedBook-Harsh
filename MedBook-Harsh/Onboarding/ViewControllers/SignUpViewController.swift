@@ -68,6 +68,16 @@ class SignupViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         return textField
     }()
     
+    private let passwordRequirementLabel : UILabel = {
+        let label = UILabel()
+        label.text = "Password must have at least 8 characters, 1 uppercase, 1 number, and 1 special character."
+        label.textColor = .gray
+        label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private let countryPicker: UIPickerView = {
         let picker = UIPickerView()
         picker.translatesAutoresizingMaskIntoConstraints = false
@@ -118,6 +128,7 @@ extension SignupViewController {
         view.addSubview(emailTextField)
         view.addSubview(passwordTextField)
         view.addSubview(passwordToggleButton)
+        view.addSubview(passwordRequirementLabel)
         view.addSubview(countryPicker)
         view.addSubview(signupButton)
         
@@ -158,8 +169,13 @@ extension SignupViewController {
             passwordToggleButton.widthAnchor.constraint(equalToConstant: 30),
             passwordToggleButton.heightAnchor.constraint(equalToConstant: 30),
             
-            // Country Picker below password textField
-            countryPicker.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 16),
+            // Password requirment label on the bottom of password textField
+            passwordRequirementLabel.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 8),
+            passwordRequirementLabel.leadingAnchor.constraint(equalTo: passwordTextField.leadingAnchor),
+            passwordRequirementLabel.trailingAnchor.constraint(equalTo: passwordTextField.trailingAnchor),
+            
+            // Country Picker below password requirment label
+            countryPicker.topAnchor.constraint(equalTo: passwordRequirementLabel.bottomAnchor, constant: 16),
             countryPicker.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             countryPicker.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             countryPicker.heightAnchor.constraint(equalToConstant: 150),
@@ -282,13 +298,17 @@ extension SignupViewController {
             showAlert("Invalid Password", "Password must have at least 8 characters, 1 uppercase, 1 number, and 1 special character.")
             return
         }
-        
-        AppDefaults.shared.countryName = selectedCountry
-        AppDefaults.shared.email = email
-        AppDefaults.shared.password = password
-        AppDefaults.shared.loggedIn = true
-        
-        navigateToHomeScreen()
+                
+        if email == AppDefaults.shared.email {
+            showAlert("Email already Exists", "Please login with the same email")
+        } else {
+            AppDefaults.shared.countryName = selectedCountry
+            AppDefaults.shared.email = email
+            AppDefaults.shared.password = password
+            AppDefaults.shared.loggedIn = true
+            
+            navigateToHomeScreen()
+        }
     }
     
     @objc

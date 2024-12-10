@@ -14,11 +14,11 @@ enum SortOption {
 }
 
 struct BookResponse: Codable {
-    let books: [BookDoc]
+    let docs: [BookDoc]
 }
 
 struct BookDoc: Codable {
-    let title: String
+    let title: String?
     let authorName: [String]?
     let coverI: Int?
     let ratingsAverage: Double?
@@ -34,9 +34,9 @@ struct BookDoc: Codable {
 }
 
 struct Book: Codable {
-    let title: String
-    let author: String
+    let title: String?
+    let author: String?
     let coverID: Int?
-    let ratingsAverage: Double
-    let ratingsCount: Int
+    let ratingsAverage: Double?
+    let ratingsCount: Int?
 }

@@ -7,12 +7,17 @@
 
 import UIKit
 
+protocol HomeVCProtocol: AnyObject {
+    func openLoginViewController()
+}
+
 class HomeViewController : UIViewController {
     
     private var selectedSort: SortOption = .title
     private var isLoading = false
-    private var totalResults = 0
     private var viewModel = HomeViewModel()
+    private var searchTask: DispatchWorkItem?
+    weak var delegate: HomeVCProtocol?
     
     private let bookmarkedTableView : UITableView = {
         let tableView = UITableView()
@@ -215,10 +220,12 @@ extension HomeViewController {
             } else {
                 noResultsView.updateMessage("Search your favourite books")
             }
+            sortingStackView.isHidden = true
         } else {
             //hide the noResultsView and show the tableView
             noResultsView.isHidden = true
             bookmarkedTableView.isHidden = false
+            sortingStackView.isHidden = false
         }
     }
     
@@ -234,44 +241,37 @@ extension HomeViewController {
     
     // API CALL for books
     private func fetchBooks(query: String, offset: Int) {
-        //MARK: Uncomment below code for api call
-        /*
-         loader.startAnimating()
-         viewModel.fetchBooks(query: query, offset: offset) { [weak self] success, errorMessage in
-         guard let self = self else { return }
-         DispatchQueue.main.async {
-         self.loader.stopAnimating()
-         
-         if success {
-         let startIndex = self.viewModel.books.count
-         let endIndex = self.viewModel.books.count - 1
-         if endIndex >= startIndex {
-         let indexPaths = (startIndex...endIndex).map { IndexPath(row: $0, section: 0) }
-         self.bookmarkedTableView.insertRows(at: indexPaths, with: .automatic)
-         
-         if self.viewModel.books.isEmpty {
-         self.updateNoResultsView()
-         } else {
-         self.bookmarkedTableView.insertRows(at: indexPaths, with: .automatic)
-         self.updateNoResultsView()
-         }
-         }
-         } else {
-         self.showAlert("Oops", errorMessage ?? "Unknown error")
-         }
-         }
-         }
-         */
+        DispatchQueue.main.async { [weak self] in
+            self?.loader.startAnimating()
+        }
+
+        viewModel.fetchBooks(query: query, offset: offset) { [weak self] success, errorMessage in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                self.loader.stopAnimating()
+
+                if success {
+                    print("Reloading table with \(self.viewModel.books.count) books")
+                    self.bookmarkedTableView.reloadData()
+                    self.updateNoResultsView()
+                    
+                } else if let errorMessage = errorMessage {
+                    print("Error fetching books: \(errorMessage)")
+                    self.showAlert("Oops", errorMessage)
+                }
+            }
+        }
     }
-    
+
+
     private func sortBooks() {
         switch selectedSort {
         case .title:
-            viewModel.books.sort { $0.title < $1.title }
+            viewModel.books.sort { $0.title ?? "" < $1.title ?? "" }
         case .averageRating:
-            viewModel.books.sort { $0.ratingsAverage > $1.ratingsAverage }
+            viewModel.books.sort { $0.ratingsAverage ?? 0.0 > $1.ratingsAverage ?? 0.0 }
         case .hits:
-            viewModel.books.sort { $0.ratingsCount > $1.ratingsCount }
+            viewModel.books.sort { $0.ratingsCount ?? 0 > $1.ratingsCount ?? 0 }
         }
         bookmarkedTableView.reloadData()
     }
@@ -323,39 +323,48 @@ extension HomeViewController {
 extension HomeViewController : UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        //MARK: remove following code and uncomment below code for api call
-        viewModel.filterBooks(byTitle: searchText)
-        updateNoResultsView()
-        bookmarkedTableView.reloadData()
         
-        /*if searchText.count >= 3 {
-         books.removeAll()
-         bookmarkedTableView.reloadData()
-         fetchBooks(query: searchText, offset: 0)
-         } else {
-         books.removeAll()
-         updateNoResultsView()
-         bookmarkedTableView.reloadData()
-         }*/
+        if searchText.count >= 3 {
+            viewModel.books.removeAll()
+            bookmarkedTableView.reloadData()
+            
+            guard let searchText = searchBar.text else { return }
+
+              self.searchTask?.cancel()
+
+              let task = DispatchWorkItem { [weak self] in
+                DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+                    self?.fetchBooks(query: searchText, offset: 0)
+                }
+              }
+
+              self.searchTask = task
+
+              DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: task)
+        } else {
+            viewModel.books.removeAll()
+            updateNoResultsView()
+            bookmarkedTableView.reloadData()
+        }
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         guard let searchText = searchBar.text else { return }
-        //MARK: remove following code and uncomment below code for api call
-        viewModel.filterBooks(byTitle: searchText)
-        updateNoResultsView()
-        bookmarkedTableView.reloadData()
+//        //MARK: remove following code and uncomment below code for api call
+//        viewModel.filterBooks(byTitle: searchText)
+//        updateNoResultsView()
+//        bookmarkedTableView.reloadData()
         
-        /*if searchText.count >= 3 {
-         books.removeAll()
-         bookmarkedTableView.reloadData()
-         fetchBooks(query: searchText, offset: 0)
-         } else {
-         books.removeAll()
-         updateNoResultsView()
-         bookmarkedTableView.reloadData()
-         }*/
+        if searchText.count >= 3 {
+            viewModel.books.removeAll()
+            bookmarkedTableView.reloadData()
+            fetchBooks(query: searchText, offset: 0)
+        } else {
+            viewModel.books.removeAll()
+            updateNoResultsView()
+            bookmarkedTableView.reloadData()
+        }
     }
 }
 
@@ -364,10 +373,10 @@ extension HomeViewController : UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let position = scrollView.contentOffset.y
-        let contentHeight = scrollView.contentSize.height
         let scrollHeight = scrollView.frame.size.height
+        let contentHeight = scrollView.contentSize.height
         
-        if position > (contentHeight - scrollHeight) && !isLoading && viewModel.books.count < totalResults {
+        if position > (contentHeight - scrollHeight - 100) {
             let nextOffset = viewModel.books.count
             if let searchText = searchBar.text, searchText.count >= 3 {
                 fetchBooks(query: searchText, offset: nextOffset)

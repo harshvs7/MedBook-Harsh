@@ -15,7 +15,7 @@ struct DefaultValues {
     static let bookmarkedBooks = "bookmarkedBooks"
 }
 
-//A  class to access the userDefaults with modularity and at one place
+//A  class to access the userDefaults at one place
 class AppDefaults {
     static let shared = AppDefaults()
     private var userDefaults = UserDefaults.standard
@@ -92,10 +92,10 @@ class AppDefaults {
 
     
     func logout() {
-        userDefaults.setValue(false, forKey: DefaultValues.loggedIn)
-        userDefaults.setValue("", forKey: DefaultValues.email)
-        userDefaults.setValue("", forKey: DefaultValues.countryName)
-        userDefaults.setValue("", forKey: DefaultValues.password)
+        userDefaults.removeObject(forKey: DefaultValues.email)
+        userDefaults.removeObject(forKey: DefaultValues.loggedIn)
+        userDefaults.removeObject(forKey: DefaultValues.countryName)
+        userDefaults.removeObject(forKey: DefaultValues.password)
         userDefaults.synchronize()
     }
     

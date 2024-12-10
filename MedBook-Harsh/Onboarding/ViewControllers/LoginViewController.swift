@@ -45,6 +45,7 @@ class LoginViewController: UIViewController {
         textField.layer.borderColor = UIColor.systemGray.cgColor
         textField.layer.cornerRadius = 8
         textField.autocapitalizationType = .none
+        textField.textContentType = .none
         textField.attributedPlaceholder = NSAttributedString(
             string: "Enter your email",
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
@@ -64,6 +65,7 @@ class LoginViewController: UIViewController {
         textField.layer.borderWidth = 1.0
         textField.layer.borderColor = UIColor.systemGray.cgColor
         textField.layer.cornerRadius = 8
+        textField.textContentType = .none
         textField.attributedPlaceholder = NSAttributedString(
             string: "Enter your password",
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
@@ -135,18 +137,13 @@ extension LoginViewController {
         emailTextField.delegate = self
         passwordTextField.delegate = self
         headerImageView.image = UIImage(named: "loginPage")
+        loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         registerButton.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
         passwordToggleButton.addTarget(self, action: #selector(togglePasswordVisibility), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
-            // Header Image View
-            headerImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            headerImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            headerImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            headerImageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3),
-            
             // Title Label
-            titleLabel.topAnchor.constraint(equalTo: headerImageView.bottomAnchor, constant: 20),
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
@@ -179,6 +176,11 @@ extension LoginViewController {
             loginButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             loginButton.heightAnchor.constraint(equalToConstant: 50),
             
+            // Header Image View
+            headerImageView.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 16),
+            headerImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            headerImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
             // Register Label
             registerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -40),
             registerLabel.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -80),
@@ -197,9 +199,8 @@ extension LoginViewController {
         toolbar.sizeToFit()
         
         let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(topDoneButtonTapped))
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         
-        toolbar.items = [flexibleSpace, doneButton]
+        toolbar.items = [doneButton]
         
         emailTextField.inputAccessoryView = toolbar
         passwordTextField.inputAccessoryView = toolbar
@@ -211,10 +212,22 @@ extension LoginViewController {
 
     @objc
     private func loginButtonTapped() {
-        guard let email = emailTextField.text, let password = passwordTextField.text else { return }
-        if email == AppDefaults.shared.email && password == AppDefaults.shared.password {
+        guard let email = emailTextField.text, let password = passwordTextField.text else {
+            showAlert("Attention", "Please fill all the details.")
+            return
+        }
+        guard let loggedInEmail = AppDefaults.shared.email, let loggedInPassword = AppDefaults.shared.password else {
+            showAlert("Please Register First", "You have not created any account yet.")
+            return
+        }
+
+        if email == loggedInEmail && password == loggedInPassword {
             let viewController = HomeViewController()
             self.navigationController?.pushViewController(viewController, animated: true)
+        } else if email != loggedInEmail {
+            showAlert("Wrong Email", "Please enter correct email!")
+        } else {
+            showAlert("Wrong Password", "Please enter correct password!")
         }
     }
     
